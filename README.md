@@ -26,9 +26,7 @@ Además, la página **Acerca del modelo** resume qué hace, sus resultados en te
 glosario en palabras sencillas. Pendiente por si sobra tiempo: carga por lote (CSV).
 
 Las tasas del explorador son **asociaciones, no causas**, y cada variable se muestra junto con su puesto en la
-importancia SHAP del modelo (la ubicación domina). Las acciones de la PI 5 son **reglas de diseño**
-(`reglas/gestion_por_zona.json`, editable y para validar con la profesora); lo que viene de los datos es la tasa de
-críticos de cada zona.
+importancia SHAP del modelo (la ubicación domina).
 
 ## Puesta en marcha (Windows)
 
