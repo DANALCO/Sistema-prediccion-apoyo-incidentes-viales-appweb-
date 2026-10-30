@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "aviso": "Las acciones sugeridas son reglas de diseño para apoyar la decisión del operador: no se aprenden de los datos ni sustituyen el protocolo de la entidad. Lo que sí sale de los datos es la evidencia de cada zona: el porcentaje de incidentes que resultaron críticos en la evaluación sobre test.",
+  "zonas": {
+    "Normal": {
+      "titulo": "Seguimiento rutinario",
+      "prioridad": "Baja",
+      "acciones": [
+        "Registrar el incidente y seguir el protocolo estándar de atención.",
+        "Mantener el monitoreo habitual (cámaras, reportes de conductores).",
+        "Volver a analizar el caso si llega información nueva: clima, carriles bloqueados o intersección afectada."
+      ]
+    },
+    "Vigilancia (bajo el umbral)": {
+      "titulo": "Atención reforzada",
+      "prioridad": "Media-baja",
+      "acciones": [
+        "Completar los campos que faltaban en el reporte y volver a analizar: una predicción con campos estimados es menos fiable.",
+        "Pedir confirmación visual (cámara o patrulla) de los carriles afectados.",
+        "Anotar el caso para revisarlo en el siguiente ciclo de monitoreo."
+      ]
+    },
+    "Vigilancia (sobre el umbral)": {
+      "titulo": "Preparar la respuesta",
+      "prioridad": "Media-alta",
+      "acciones": [
+        "Avisar al supervisor de turno de que el caso está cerca del umbral crítico.",
+        "Dejar en alerta, sin movilizar, a la unidad de despeje y a la de señalización.",
+        "Identificar las rutas alternas del tramo y preparar el mensaje a los conductores.",
+        "Confirmar los carriles bloqueados y volver a analizar con los datos nuevos."
+      ]
+    },
+    "Critico": {
+      "titulo": "Respuesta prioritaria",
+      "prioridad": "Alta",
+      "acciones": [
+        "Priorizar el despeje de la vía y asignar los recursos de remolque y atención.",
+        "Activar las rutas alternas y comunicar el desvío a los conductores (señalización variable, radio o aplicaciones de navegación).",
+        "Coordinar con emergencias un acceso para sus unidades y proteger la cola de tráfico para evitar accidentes secundarios.",
+        "Reevaluar el caso a medida que llegue información (carriles cerrados, duración estimada) y liberar recursos cuando baje el riesgo."
+      ]
+    }
+  },
+  "factores": {
+    "Ubicacion": "El factor que más empuja el riesgo es el lugar (estado y coordenadas): revisar el historial del tramo y las rutas alternas cercanas.",
+    "Infraestructura": "El factor que más empuja el riesgo es la infraestructura (tipo de vía e intersecciones): verificar el control de la intersección y la capacidad de desvío.",
+    "Tiempo": "El factor que más empuja el riesgo es el momento (hora, día, estación): contrastar con la hora pico y con las unidades disponibles en ese horario.",
+    "Clima": "El factor que más empuja el riesgo son las condiciones climáticas: avisar a los conductores de la velocidad y la visibilidad en el tramo."
+  },
+  "campos_estimados": "Faltaron {n} campos opcionales y el modelo los estimó con valores típicos de entrenamiento: la predicción es menos fiable. Complete lo que pueda confirmar.",
+  "campo_estimado": "Faltó 1 campo opcional y el modelo lo estimó con un valor típico de entrenamiento: la predicción es menos fiable. Complete lo que pueda confirmar."
+}

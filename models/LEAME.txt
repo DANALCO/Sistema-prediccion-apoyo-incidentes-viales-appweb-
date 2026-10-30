@@ -1,0 +1,7 @@
+Esta carpeta guarda el modelo que usa la app. Se llena sola con:
+
+    python sincronizar_modelo.py C:\ruta\a\proyecto-accidentes
+
+(copia tiempo_real/, reportes/ y manifest_tiempo_real.json desde proyecto-accidentes\models
+ y deja el codigo del modelo en ..\src\accidentes).
+Mientras este vacia, la app lo avisa al abrirse.

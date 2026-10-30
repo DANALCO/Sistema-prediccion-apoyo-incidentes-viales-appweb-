@@ -1,0 +1,16 @@
+{
+  "sincronizado": "2026-10-28T21:06:51",
+  "origen": "proyecto-accidentes",
+  "exportado_el": "2026-10-28T15:41:22",
+  "archivos_modelo": 9,
+  "modulos_codigo": [
+    "__init__",
+    "config",
+    "ensemble",
+    "explain",
+    "features",
+    "inference",
+    "models",
+    "preprocessing"
+  ]
+}

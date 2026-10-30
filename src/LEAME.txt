@@ -1,0 +1,4 @@
+La carpeta accidentes/ es una COPIA del codigo del modelo (proyecto-accidentes/src/accidentes):
+solo los 8 modulos que necesita la app para predecir y explicar. No la edite aqui: se actualiza con
+    python sincronizar_modelo.py C:\ruta\a\proyecto-accidentes
+(los .joblib de models/ guardan referencias a estas clases, por eso codigo y modelos deben ser del mismo momento).

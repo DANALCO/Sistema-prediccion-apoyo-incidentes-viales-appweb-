@@ -1,0 +1,18 @@
+# Aplicacion web (se ejecuta en local). Instalar con:  pip install -r requirements.txt
+#
+# IMPORTANTE: los .joblib del modelo solo cargan bien con las MISMAS versiones de scikit-learn,
+# xgboost y lightgbm con las que se entreno (models/manifest_tiempo_real.json, seccion "versiones";
+# `python sincronizar_modelo.py --solo-verificar` las compara con las instaladas). Si no coinciden:
+#     pip install scikit-learn==<version> xgboost==<version> lightgbm==<version>
+streamlit>=1.40
+plotly>=5.20
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.4
+joblib>=1.3
+scipy>=1.11
+xgboost
+lightgbm
+shap
+folium
+streamlit-folium            # mapa para marcar el lugar del incidente (opcional: sin el, la app funciona igual)
