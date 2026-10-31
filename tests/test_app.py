@@ -326,3 +326,46 @@ def test_cada_campo_del_formulario_tiene_su_ayuda():
     assert not sin_ayuda, f"campos sin «?»: {sin_ayuda}"
     selector = next(w for w in at.get("segmented_control")) if at.get("segmented_control") else None
     assert selector is None or selector.proto.help
+
+
+def _hora_y_fecha(at, fecha, hora):
+    next(x for x in at.date_input if x.key == "f_fecha").set_value(fecha)
+    next(x for x in at.time_input if x.key == "f_hora").set_value(hora)
+
+
+def test_dia_o_noche_que_no_cuadra_con_la_hora_avisa_y_se_puede_corregir():
+    import datetime as dt
+    at = pagina("analizar.py")
+    boton(at, "Vaciar").click().run()
+    _sel(at, "f_estado").select("TN").run()
+    _hora_y_fecha(at, dt.date(2025, 11, 14), dt.time(12, 0))
+    _sel(at, "f_dianoche").select("Night").run()
+    assert not at.exception, [e.value for e in at.exception]
+    assert any("de día" in w.value and "marcó «Noche»" in w.value for w in at.warning)
+    boton(at, "Cambiar a «Día»").click().run()
+    assert at.session_state["f_dianoche"] == "Day" and not at.exception
+    assert not any("Día o noche" in w.value for w in at.warning)
+
+
+def test_dia_o_noche_que_cuadra_o_esta_vacio_no_avisa_y_dejar_vacio_funciona():
+    import datetime as dt
+    at = pagina("analizar.py")
+    boton(at, "Vaciar").click().run()
+    _sel(at, "f_estado").select("TN").run()
+    _hora_y_fecha(at, dt.date(2025, 11, 14), dt.time(22, 40))
+    at.run()
+    assert not any("Día o noche" in w.value for w in at.warning)                  # vacio: no avisa
+    _sel(at, "f_dianoche").select("Night").run()
+    assert not any("Día o noche" in w.value for w in at.warning)                  # noche a las 22:40: coherente
+    _hora_y_fecha(at, dt.date(2025, 11, 14), dt.time(12, 0))
+    at.run()
+    assert any("Día o noche" in w.value for w in at.warning)
+    boton(at, "Dejar vacío").click().run()
+    assert at.session_state["f_dianoche"] is None and not at.exception
+    assert not any("Día o noche" in w.value for w in at.warning)
+
+
+def test_el_ejemplo_y_el_amanecer_no_generan_avisos_de_dia_o_noche():
+    at = pagina("analizar.py")
+    boton(at, "Cargar ejemplo").click().run()
+    assert not at.exception and not any("Día o noche" in w.value for w in at.warning)

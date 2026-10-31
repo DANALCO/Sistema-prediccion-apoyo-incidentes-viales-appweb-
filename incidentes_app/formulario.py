@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-from . import estilo, lugares, ui
+from . import estilo, lugares, sol, ui
 from .ayudas import (AYUDA, AYUDA_BANDERA, AYUDA_INFRA, DIA_NOCHE_TEXTO, TIPO_VIA_TEXTO, VIENTO_TEXTO)
 from .etiquetas import INFRAESTRUCTURA, VARIABLE
 
@@ -357,6 +357,42 @@ def _resumen_ubicacion(estados):
                        "pegue las coordenadas.")
 
 
+def _poner_dia_noche(valor):
+    """Callback de los botones del aviso: corre antes de dibujar el campo, asi puede cambiarlo."""
+    st.session_state["f_dianoche"] = valor
+
+
+def _aviso_dia_noche():
+    """Avisa si «Día o noche» (seccion 2) contradice la hora, la fecha y el lugar, y ofrece corregirlo.
+
+    Solo avisa cuando la hora cae claramente de dia o de noche (ver sol.py): al amanecer y al atardecer no dice nada.
+    No bloquea: el operador puede saber algo que el calculo no sabe."""
+    s = st.session_state
+    elegido = s.get("f_dianoche")
+    estado, fecha, hora = s.get("f_estado"), s.get("f_fecha"), s.get("f_hora")
+    if elegido not in DIA_NOCHE_TEXTO or not estado or fecha is None or hora is None:
+        return
+    lat, lng = s.get("f_lat"), s.get("f_lng")
+    if lat is None or lng is None:
+        centro = lugares.centro_del_estado(estado)
+        if centro is None:
+            return
+        lat, lng = centro
+    esperado = sol.dia_o_noche(fecha, hora, lat, lng, estado)
+    if esperado is None or esperado == elegido:
+        return
+    salida, puesta = sol.salida_y_puesta(fecha, lat, lng, estado)
+    momento = "de día" if esperado == "Day" else "de noche"
+    st.warning(f"A las {hora:%H:%M} del {fecha:%d/%m/%Y} en ese lugar normalmente es {momento} (el sol sale hacia las "
+               f"{sol.hora_texto(salida)} y se pone hacia las {sol.hora_texto(puesta)}), pero en «Día o noche» "
+               f"marcó «{DIA_NOCHE_TEXTO[elegido]}». Revise la hora o ese campo: si no coinciden, la estimación "
+               f"empeora.")
+    c1, c2, _ = st.columns([2, 2, 3])
+    c1.button(f"Cambiar a «{DIA_NOCHE_TEXTO[esperado]}»", on_click=_poner_dia_noche, args=(esperado,),
+              key="btn_corregir_dianoche")
+    c2.button("Dejar vacío", on_click=_poner_dia_noche, args=(None,), key="btn_vaciar_dianoche")
+
+
 def dibujar(opciones):
     """Dibuja los campos. `opciones` = predictor.opciones_formulario()."""
     s = st.session_state
@@ -386,6 +422,7 @@ def dibujar(opciones):
         else:
             _metodo_coordenadas()
         _resumen_ubicacion(estados)
+        _aviso_dia_noche()
 
     with st.expander("**2 · Clima y visibilidad** — opcional, mejora la precisión"):
         st.caption("Si no conoce un dato, déjelo vacío: el sistema usa un valor típico y lo avisará en el resultado. "

@@ -41,7 +41,8 @@ AYUDA = {
     "f_dirviento": "De qué lado sopla el viento (N = norte, S = sur, E = este, W = oeste). «Sin viento» si está en "
                    "calma. Casi no influye: si no lo sabe, déjelo vacío.",
     "f_dianoche": "Si en ese momento hay luz del sol (día) o ya oscureció (noche) en el lugar. No es lo mismo que la hora "
-                  "del reloj: a las 6 de la tarde puede ser de día en verano y de noche en invierno.",
+                  "del reloj: a las 6 de la tarde puede ser de día en verano y de noche en invierno. Si no cuadra con la hora "
+                  "del reporte, la aplicación se lo avisa.",
     "f_tipovia": "La clase de camino donde ocurrió. Si no sabe, déjelo vacío o escriba el nombre de la calle "
                  "(más abajo) y el sistema lo deduce.",
     "f_calle": "Opcional. Escríbalo como figura en el reporte (por ejemplo «I-95 N» o «Main St»). Solo se usa cuando "
